@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React, {Component} from 'react'
+import NProgress from 'nprogress'
+import {connect} from 'react-redux'
+import Counter from './views/Counter'
+
+class App extends Component {
+	componentWillMount () {
+		//进度环显示隐藏
+		// NProgress.configure({showSpinner: false});
+		NProgress.start()
+	  }
+	componentDidMount () {
+		setTimeout(() => {
+			NProgress.done()
+		}, 1000)
+	}
+	render(){
+		console.log(NProgress)
+		return ( 
+			<div className = "App" >
+				<p>
+					App当前环境：{process.env.REACT_APP_ENV} <br />
+					App Tite: {process.env.REACT_APP_NAME} <br />
+					App Version：{process.env.REACT_APP_VERSION} <br />
+					App Domian：{process.env.REACT_APP_DOMAIN} <br />
+					App Api: {process.env.REACT_APP_API} <br />
+				</p>
+				<hr/>
+				<Counter></Counter>
+				<hr/>
+			</div>
+		)
+	}
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return state
+}
+
+export default connect(mapStateToProps)(App)
