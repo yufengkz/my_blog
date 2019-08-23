@@ -5,6 +5,38 @@ cd my-demo
 yarn eject
 ```
 
+### 项目引入ant
+```
+yarn add antd
+yarn add --dev babel-plugin-import @babel/plugin-proposal-decorators
+# 添加.babelrc文件
+{
+    "presets": ["react-app"],
+    "plugins": [
+        ["@babel/plugin-proposal-decorators", { "legacy": true }],
+        ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }]
+    ]
+}
+# 删除package.json中的babel配置
+```
+
+### 配置自定义主题
+```
+# 修改webpack.config.js
+# 找到getStyleLoaders配置第三个参数
+const getStyleLoaders = (cssOptions, preProcessor, newOptions) => {
+    ...其他代码
+    {
+        loader: require.resolve(preProcessor),
+        options: {
+          //自定义主题配置
+          ...newOptions,
+          sourceMap: true,
+        },
+    }
+}
+```
+
 ### 添加less支持
 ```
 # 安装以来插件
@@ -118,39 +150,6 @@ yarn build-prod 生产环境打包
 ```
 # index.html手动引入 nprogress.css
 yarn add nprogress
-```
-
-### 项目引入ant
-```
-yarn add antd
-yarn add --dev babel-plugin-import @babel/plugin-proposal-decorators
-# 添加.babelrc文件
-{
-    "presets": ["react-app"],
-    "plugins": [
-        ["@babel/plugin-proposal-decorators", { "legacy": true }],
-        ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }]
-    ]
-}
-# 删除package.json中的babel配置
-
-```
-
-### 配置自定义主题
-```
-# 修改webpack.config.js
-# 找到getStyleLoaders配置第三个参数
-const getStyleLoaders = (cssOptions, preProcessor, newOptions) => {
-    ...其他代码
-    {
-        loader: require.resolve(preProcessor),
-        options: {
-          //自定义主题配置
-          ...newOptions,
-          sourceMap: true,
-        },
-    }
-}
 ```
 
 ### 项目配置redux
