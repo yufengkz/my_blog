@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
-import App from './App'
+import Routers from './router'
 
 import store from './redux/store'
 import axios from './lib/axios'
@@ -14,7 +14,7 @@ React.Component.prototype.axios = axios
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <Routers />
     </Provider>, 
     document.getElementById('root')
 )

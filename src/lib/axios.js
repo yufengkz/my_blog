@@ -26,12 +26,11 @@ instance.interceptors.request.use(config => {
 //拦截响应
 instance.interceptors.response.use(
   response => {
-    if (response.data.code !== 200) {
+    if (response.status === 200 && response.data.code !== 0) {
       response.data.message && message.warning(response.data.message)
-      console.log(response.data)
       return Promise.reject(response.data)
-    }
-    return response.data
+	}
+    return Promise.resolve(response.data)
   },
   err => {
     clearTimeout(timer)
