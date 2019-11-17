@@ -1,46 +1,65 @@
-import React from 'react'
-import {Link}  from 'react-router-dom'
+import React, {useState, useEffect, useCallback} from 'react'
+import {withRouter} from 'react-router-dom'
 import { Card, Col, Divider, Tag } from 'antd'
+import {_getUserInfo, _getTags, _getHotArticle} from '../../../../api/client'
+import { random } from '../../../../lib/utils'
 
-const User = () => {
+const User = props => {
+    const [userInfo, setUserInfo] = useState({})
+    const [tags, setTags] = useState([])
+    const [hotArticle, setHotArticle] = useState([])
+    useEffect(() => {
+        const getUserInfo = async () => {
+            let data = await _getUserInfo()
+            setUserInfo(data.data)
+        }
+        const getTags = async () => {
+            let data = await _getTags()
+            setTags(data.data)
+        }
+        const getHotArticle = async () => {
+            let data = await _getHotArticle()
+            setHotArticle(data.data.list)
+        }
+
+        getUserInfo()
+        getTags()
+        getHotArticle()
+        return () => {}
+    }, [])
+    
+    const goDetail = useCallback((itemId) => {
+        props.history.replace(`/detail/${itemId}`)
+    }, [props.history])
+
     return (
         <Col lg={5} md={6} sm={0} xs={0}>
-            <Card className="client-user" bordered={false} cover={<img src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}>
+            <Card className="client-user" bordered={false} cover={<img src={userInfo.top_img} alt="" />}>
                 <div className="client-user-avatar">
                     {/* <img style={{ width: 60, height: 60 }} src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png" alt="" /> */}
-                    <h1>你若在风里</h1>
-                    <p>热爱软件行业，对IT领域的软件开发和设计工作有着浓厚的兴趣，而且能承受较大的工作压力；具有很强的团队合作精神，有良好的组织、协调和沟通能力，有强烈的集体荣誉感；工作认真负责，积极上进，能吃苦耐劳，有良好的职业素质。</p>
+                    <h1>{userInfo.nick_name}</h1>
+                    <p>{userInfo.introduce}</p>
                 </div>
                 <Divider dashed style={{margin: '10px 0'}}/>
                 <div className="client-user-tags">
                     <h2>文章标签：</h2>
                     <div>
-                        <Tag color="magenta">magenta</Tag>
-                        <Tag color="red">red</Tag>
-                        <Tag color="volcano">volcano</Tag>
-                        <Tag color="orange">orange</Tag>
-                        <Tag color="gold">gold</Tag>
-                        <Tag color="lime">lime</Tag>
-                        <Tag color="green">green</Tag>
-                        <Tag color="cyan">cyan</Tag>
-                        <Tag color="blue">blue</Tag>
-                        <Tag color="geekblue">geekblue</Tag>
-                        <Tag color="purple">purple</Tag>
+                        {
+                            tags.map(item => <Tag color={`rgba(${random(0, 256)}, ${random(0, 256)}, ${random(0, 256)})`} key={item.id}>{item.name}</Tag>)
+                        }
                     </div>
                 </div>
                 <Divider dashed style={{margin: '10px 0'}}/>
                 <div className="client-user-article">
                     <h2>推荐文章：</h2>
                     <ul>
-                        <li>
-                            <Link>1.免费视频离线高清版下载（共350集）</Link>
-                        </li>
-                        <li>
-                            <Link>2.每周至少两篇文章分享</Link>
-                        </li>
-                        <li>
-                            <Link>3.收费视频半价购买特权(最高省302元)</Link>
-                        </li>
+                        {
+                            hotArticle.map((item, index) => (
+                                <li key={item.id}>
+                                    <span onClick={() => goDetail(item.id)}>{`${index + 1}.${item.title}`}</span>
+                                </li>
+                            ))
+                        }
                     </ul>
                 </div>
             </Card>
@@ -48,4 +67,4 @@ const User = () => {
     )
 }
 
-export default User
+export default withRouter(User)

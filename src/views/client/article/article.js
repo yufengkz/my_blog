@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { List, Tag, Icon } from 'antd'
+import { List, Icon } from 'antd'
 
 export default class Article extends Component {
     state = {

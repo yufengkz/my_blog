@@ -1,6 +1,6 @@
 
-import React, {Component} from 'react'
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import NProgress from 'nprogress'
 
 import App from '../App'
@@ -20,24 +20,24 @@ import ArticleList from '../views/admin/article/list'
 import ArticleDetail from '../views/admin/article/detail'
 import About from '../views/client/about/About';
 
-export default class Routers extends Component {
-	componentWillMount () {
+class Routers extends Component {
+	componentWillMount() {
 		//进度环显示隐藏
 		// NProgress.configure({showSpinner: false});
 		NProgress.start()
-	  }
-	componentDidMount () {
+	}
+	componentDidMount() {
 		setTimeout(() => {
 			NProgress.done()
 		}, 1000)
 	}
-	render(){
-		return ( 
-			<BrowserRouter>
-                <App>
-                    <Switch>
-                        <Route path="/login" component={Login} />
-                        <Route path="/admin" render={()=>(
+	render() {
+		return (
+			<App>
+				<Router>
+					<Switch>
+						<Route path="/login" component={Login} />
+						<Route path="/admin" render={() => (
 							<AdminLayout>
 								<Switch>
 									<Route path="/admin/home" component={AdminHome} />
@@ -47,7 +47,7 @@ export default class Routers extends Component {
 								</Switch>
 							</AdminLayout>
 						)} />
-                        <Route path="/" render={() => (
+						<Route path="/" render={() => (
 							<ClientLayout>
 								<Switch>
 									<Route path="/home" component={ClientHome} />
@@ -58,9 +58,11 @@ export default class Routers extends Component {
 								</Switch>
 							</ClientLayout>
 						)} />
-                    </Switch>
-                </App>
-			</BrowserRouter>
+					</Switch>
+				</Router>
+			</App>
 		)
 	}
 }
+
+export default Routers

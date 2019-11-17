@@ -1,9 +1,15 @@
-import {combineReducers} from 'redux'
-//一个项目有很多reducer，整合reducer
-import counter from './reducers/counter'
-import setMenuTitle from './reducers/menu'
+import {
+    SET_USER_INFO
+} from './constants'
 
-export default combineReducers({
-    counter,
-    setMenuTitle
-})
+export default {
+    userInfo(state = null, action) {
+        const { type, payload } = action
+        switch (type) {
+            case SET_USER_INFO:
+                return payload
+            default:
+                return state
+        }
+    }
+}

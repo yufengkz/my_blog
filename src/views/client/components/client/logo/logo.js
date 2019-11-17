@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
-import {Link} from 'react-router-dom'
+import React from 'react'
+import { Link, withRouter } from 'react-router-dom'
 
-import { Layout, Card, Row, Col, Icon, Menu } from 'antd'
-const { Header, Sider, Content } = Layout
-const Logo = () => {
-    const [current, setCurrent] = useState('home')
+import { Layout, Row, Col, Menu } from 'antd'
+const { Header } = Layout
+const Logo = props => {
+    //const [current, setCurrent] = useState('home')
 
-
+    let path = props.location.pathname
+    // if(path.indexOf('detail')) path = 'article'
     return (
         <Header style={{ padding: 0 }}>
             <Row type="flex" justify="center">
@@ -15,16 +16,22 @@ const Logo = () => {
                         {/* <img src="https://raw.githubusercontent.com/yufengkz/Blog/master/app/images/favicon.ico" alt="logo"/> */}
                         YuFeng <span>个人站</span>
                     </h1>
-                    <ul className="client-menu">
-                        <li><Link to="/home">首页</Link></li>
-                        <li><Link to="/article">文章</Link></li>
-                        <li><Link to="/about">关于我</Link></li>
-                    </ul>
+                    <Menu selectedKeys={[path]} mode="horizontal" className="client-menu">
+                        <Menu.Item key="/home">
+                            <Link to="/home">首页</Link>
+                        </Menu.Item>
+                        <Menu.Item key="/article">
+                            <Link to="/article">文章</Link>
+                        </Menu.Item>
+                        <Menu.Item key="/about">
+                            <Link to="/about">关于我</Link>
+                        </Menu.Item>
+                    </Menu>
                 </Col>
             </Row>
         </Header>
     )
 }
 
-export default Logo
+export default withRouter(Logo)
 

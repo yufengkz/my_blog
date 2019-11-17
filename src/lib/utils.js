@@ -27,3 +27,8 @@ export const removeCookie = async (name) => {
         return true
     }
 }
+
+// 随机数
+export const random = (n, m) => {
+    return Math.floor(Math.random() * (m - n) + n)
+}
