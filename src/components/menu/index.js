@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
-import {setMenuTitle} from '../../redux/actions/menu'
+import { connect } from 'react-redux'
+import { setMenuTitle } from '../../redux/actions/menu'
 import { Menu, Icon } from 'antd'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 
 import menuConfig from '../../config/menuConfig'
 const { SubMenu } = Menu
@@ -20,7 +20,7 @@ class LeftMenu extends Component {
 
         let rootMenu = []
         menuConfig.forEach(menu => {
-            if(menu.children){
+            if (menu.children) {
                 this.rootSubmenuKeys.push(menu.key)
             }
         })
@@ -36,7 +36,7 @@ class LeftMenu extends Component {
     // 菜单渲染
     renderMenu = (data) => {
         return data.map((menu) => {
-            if(menu.children){
+            if (menu.children) {
                 return (
                     <SubMenu
                         key={menu.key}
@@ -105,4 +105,4 @@ class LeftMenu extends Component {
     }
 }
 
-export default connect()(LeftMenu)
+export default connect()(withRouter(LeftMenu))

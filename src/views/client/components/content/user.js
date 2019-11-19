@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useCallback} from 'react'
-import {withRouter} from 'react-router-dom'
+import React, { useState, useEffect, useCallback } from 'react'
+import { withRouter } from 'react-router-dom'
 import { Card, Col, Divider, Tag } from 'antd'
-import {_getUserInfo, _getTags, _getHotArticle} from '../../../../api/client'
+import { _getUserInfo, _getTags, _getHotArticle } from '../../../../api/client'
 import { random } from '../../../../lib/utils'
 
 const User = props => {
@@ -25,11 +25,12 @@ const User = props => {
         getUserInfo()
         getTags()
         getHotArticle()
-        return () => {}
+        return () => { }
     }, [])
-    
+
     const goDetail = useCallback((itemId) => {
-        props.history.replace(`/detail/${itemId}`)
+        console.log(props.match)
+        props.history.push(`/detail/${itemId}`)
     }, [props.history])
 
     return (
@@ -40,7 +41,7 @@ const User = props => {
                     <h1>{userInfo.nick_name}</h1>
                     <p>{userInfo.introduce}</p>
                 </div>
-                <Divider dashed style={{margin: '10px 0'}}/>
+                <Divider dashed style={{ margin: '10px 0' }} />
                 <div className="client-user-tags">
                     <h2>文章标签：</h2>
                     <div>
@@ -49,7 +50,7 @@ const User = props => {
                         }
                     </div>
                 </div>
-                <Divider dashed style={{margin: '10px 0'}}/>
+                <Divider dashed style={{ margin: '10px 0' }} />
                 <div className="client-user-article">
                     <h2>推荐文章：</h2>
                     <ul>
